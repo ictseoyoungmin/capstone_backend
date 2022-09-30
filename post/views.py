@@ -3,6 +3,7 @@ from rest_framework import generics
 
 from .models import Post
 from .serializers import PostSerializer
+from rest_framework import status
 
 class ListPost(generics.ListCreateAPIView):
     queryset = Post.objects.all()
@@ -49,4 +50,34 @@ def like_post(request,pk):
         
     return Response({'status':'ok'})   
     
-    
+
+#_________________________________________________________
+
+# 책보고 구현중 
+@api_view(['GET'])
+def input_image(request):
+    if request.method == 'GET':     
+        print('addddddddddddddddddddddddd')
+    else:
+        print('not get')    
+    print()
+    # 
+    return render(request, '../../frontend/src/workout.html')#component/aside.js')
+
+
+@api_view(['GET', 'POST'])
+def students_list(request):
+    if request.method == 'GET':
+        data = Post.objects.all()
+
+        serializer = PostSerializer(data, context={'request': request}, many=True)
+
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        print('sadddddddddddddddddddddddddddd')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

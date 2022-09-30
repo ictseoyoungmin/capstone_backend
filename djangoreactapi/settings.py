@@ -14,7 +14,11 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# /backend
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# /frontend
+FRONT_DIR = Path(__file__).resolve().parent.parent.parent
 
 # new
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -29,7 +33,8 @@ MEDIA_URL = '/media/'
 SECRET_KEY = "django-insecure-vg03&sxmjs$88p88fv0hedc$lgre_0$26f!e#5=8%ms9@@xa8o"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# 베포시 False
+DEBUG = True 
 
 ALLOWED_HOSTS = []
 
@@ -53,7 +58,10 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+        # 400 error solve
+        'rest_framework.parsers.JSONParser',
+        
+    ] 
 }
 
 
@@ -83,7 +91,7 @@ ROOT_URLCONF = "djangoreactapi.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [],#[os.path.join(FRONT_DIR,'frontend', 'src'),],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -94,6 +102,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+COMPONENTS_DIR = [
+    os.path.join(FRONT_DIR,'frontend', 'src','component'),
 ]
 
 WSGI_APPLICATION = "djangoreactapi.wsgi.application"
