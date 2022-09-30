@@ -58,8 +58,8 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-        # 400 error solve
-        'rest_framework.parsers.JSONParser',
+        # 400 error solve JsonParser 에러 이거 때문임
+        #'rest_framework.parsers.JSONParser',
         
     ] 
 }
