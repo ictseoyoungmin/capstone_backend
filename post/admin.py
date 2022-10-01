@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Post#,Photo
+from .models import Post,UserUploadImage
 
 
 # 원본
 admin.site.register(Post)
-# admin.site.register(Photo)
+admin.site.register(UserUploadImage)
 
 # class PhotoInline(admin.TabularInline):
 #     model = Photo

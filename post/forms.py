@@ -10,5 +10,6 @@ class DocumentForm(forms.ModelForm):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = UserUploadImage
+        # fields = ('title','image')
         fields = ('image',)
         

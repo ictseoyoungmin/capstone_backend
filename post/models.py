@@ -11,5 +11,6 @@ class Post(models.Model):
         return self.title
     
 class UserUploadImage(models.Model):
+    # title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='images/',blank=True, null=True)
     
