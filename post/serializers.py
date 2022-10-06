@@ -10,3 +10,12 @@ class PostSerializer(serializers.ModelSerializer):
             # "image"
         )
         model = Post
+        
+class ImagePostSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            # 'id' yet
+            'image'
+        )
+        
+    

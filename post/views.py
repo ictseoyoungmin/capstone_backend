@@ -57,5 +57,13 @@ def user_image_processing(request):
     if request.method == "GET":
         print('GEGEGEGEEG')
         sess = Main()
-        sess.run()
-        return HttpResponse(json.dumps({"status": "Success"}))
+        result = sess.run()
+        return HttpResponse(json.dumps({"status": "Success",
+                                        "result":result}))
+        
+        
+def main(request):
+    message = request.GET.get('abc')
+    print(message)
+
+    return HttpResponse("안녕?")

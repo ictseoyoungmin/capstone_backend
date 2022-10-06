@@ -9,6 +9,14 @@ class Main():
         print('GET')
 
     def run(self):
+        # data x load
+        
+        # pre-trained model load
+        
+        # model predict x -> y : 
+        img_src = "./resource/icon.png"
+
+        return img_src,0.8,True # 가정
         pass
 
 if __name__ == '__main__':
