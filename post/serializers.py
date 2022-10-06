@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post,UserUploadImage
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +15,8 @@ class ImagePostSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             # 'id' yet
-            'image'
+            'image',
         )
+        model = UserUploadImage
         
     

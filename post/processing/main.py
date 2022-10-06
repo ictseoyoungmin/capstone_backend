@@ -8,15 +8,15 @@ class Main():
     def get(self):
         print('GET')
 
-    def run(self):
+    def run(self,raw_path):
+        
         # data x load
         
         # pre-trained model load
         
         # model predict x -> y : 
-        img_src = "./resource/icon.png"
-
-        return img_src,0.8,True # 가정
+        path = config.process_raw_path(raw_path)
+        return path,0.8,True # 가정
         pass
 
 if __name__ == '__main__':

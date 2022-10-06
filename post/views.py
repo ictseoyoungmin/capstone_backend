@@ -1,19 +1,21 @@
 import json
+import os
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework import generics
 
 from .forms import DocumentForm,ImageForm
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post,UserUploadImage
+from .serializers import PostSerializer,ImagePostSerializer
 from .processing.main import Main
 
 
 class ListPost(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    queryset = UserUploadImage.objects.all()
+    serializer_class = ImagePostSerializer
 
 class DetailPost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -39,8 +41,6 @@ def model_form_upload(request):
 @method_decorator(csrf_exempt, name="dispatch")
 def user_image_upload(request):
     print('user_image_upload')
-    print(request.POST) # 쿼리 dict 여기엔 이미지 없음
-    print(request.FILES) # 실제 저장할 이미지 파일 dict
     if request.method == "POST":
         form = ImageForm(request.POST,request.FILES)
         if form.is_valid():
@@ -55,15 +55,19 @@ def user_image_processing(request):
     print('user_image_processing')
     print(request.GET) # 쿼리 dict 여기엔 이미지 없음
     if request.method == "GET":
-        print('GEGEGEGEEG')
+        path = request.GET.get('user_image')
         sess = Main()
-        result = sess.run()
+        result = sess.run(path)
         return HttpResponse(json.dumps({"status": "Success",
                                         "result":result}))
         
         
 def main(request):
-    message = request.GET.get('abc')
-    print(message)
+    if request.method == "GET":
+        test = UserUploadImage.objects.last()
+        "http://127.0.0.1:8000/media/images/a1.jpg"
 
-    return HttpResponse("안녕?")
+        print("paht:",os.path.join(settings.MEDIA_URL,test.image.name))
+
+        return HttpResponse(json.dumps({"status": "Success",
+                                    "src_dir":os.path.join(settings.MEDIA_URL,test.image.name)}))
