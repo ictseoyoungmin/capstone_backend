@@ -57,7 +57,9 @@ def user_image_processing(request):
     if request.method == "GET":
         path = request.GET.get('user_image')
         sess = Main()
-        heatmap_url,proba,isForgery = sess.run(path)
+        # heatmap_url,proba,isForgery = sess.run(path)
+        heatmap_url,proba,isForgery = sess.example_run(path)
+        
         return HttpResponse(json.dumps({"status": "Success",
                                         "heatmap":heatmap_url,
                                         "result":{"proba":proba,
