@@ -57,15 +57,17 @@ def user_image_processing(request):
     if request.method == "GET":
         path = request.GET.get('user_image')
         sess = Main()
-        result = sess.run(path)
+        heatmap_url,proba,isForgery = sess.run(path)
         return HttpResponse(json.dumps({"status": "Success",
-                                        "result":result}))
+                                        "heatmap":heatmap_url,
+                                        "result":{"proba":proba,
+                                                  "isForgery":isForgery}
+                                        }))
         
         
 def main(request):
     if request.method == "GET":
         test = UserUploadImage.objects.last()
-        "http://127.0.0.1:8000/media/images/a1.jpg"
 
         print("paht:",os.path.join(settings.MEDIA_URL,test.image.name))
 
