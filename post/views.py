@@ -66,12 +66,3 @@ def user_image_processing(request):
                                                   "isForgery":isForgery}
                                         }))
         
-        
-def main(request):
-    if request.method == "GET":
-        test = UserUploadImage.objects.last()
-
-        print("paht:",os.path.join(settings.MEDIA_URL,test.image.name))
-
-        return HttpResponse(json.dumps({"status": "Success",
-                                    "src_dir":os.path.join(settings.MEDIA_URL,test.image.name)}))
