@@ -2,18 +2,22 @@
 from torch import nn
 import torch
 
-class BaseModel(nn.Module):
+class BaseModel():
     def __init__(self):
-        super.__init__(BaseModel,self)
-        self.name = "아직안정함"
+        self.name = "RRU-Net"
     
-    def get_model(self,train=True):
-        model = ""
+    def get_model(self,train=True,gpu = False):
+        model = "defactor-[val_dice]-0.7420-[train_loss]-0.0753.pkl"
+        
+        # model load(model)
         if train:
             model.train()
         else:
             model.eval()
-        
+        if gpu:
+            if torch.cuda.is_available():
+                model.cuda()
+                        
         return model
         
 
@@ -53,6 +57,10 @@ def pred(model,filename):
     output_predictions = output.argmax(0)
     return output_predictions,input_image.size
 
+def draw_heatmap():
+    pass
+
+# for deepLab
 def seg_result(pred,input_image_size,show=False):
     # create a color pallette, selecting a color for each class
     print('seg_result')
