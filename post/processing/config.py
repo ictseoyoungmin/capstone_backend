@@ -2,6 +2,8 @@ import sys,os
 sys.path.append('backend\djangoreactapi')
 from djangoreactapi import settings
 
+# PATH #
+
 # Django url
 LOCALHOST = settings.LOCALHOST
 
@@ -18,9 +20,12 @@ OUT_URL = os.path.join(MEDIA_URL,"out")
 OUT_DIR = os.path.join(MEDIA_DIR,"out")
 os.makedirs(OUT_DIR,exist_ok=True)
 
+# /backend
 BACKEND_DIR = settings.BASE_DIR
 
-IMAGE_SHAPE = (256,256,3)
+# Network #
+IMAGE_SHAPE = (512,512,3)
+MODE_NAME = "defactor-[val_dice]-0.7420-[train_loss]-0.0753.pkl"
 
 # "http://127.0.0.1:8000/media/images/a2_APHuk9o.jpg"
 def process_raw_path(raw_path,out = False):
@@ -45,6 +50,5 @@ def process_raw_path(raw_path,out = False):
         url = os.path.join(USER_IMAGE_DIR,
                         file_name)
     
-    print("rrrrrrrrrrrrrrrrrr",url)
     return url,file_name
     
