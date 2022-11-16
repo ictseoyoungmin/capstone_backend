@@ -56,13 +56,15 @@ def user_image_processing(request):
     print(request.GET) # 쿼리 dict 여기엔 이미지 없음
     if request.method == "GET":
         path = request.GET.get('user_image')
-        sess = Main()
-        # heatmap_url,proba,isForgery = sess.run(path)
-        heatmap_url,proba,isForgery = sess.run(path)
-        
-        return HttpResponse(json.dumps({"status": "Success",
-                                        "heatmap":heatmap_url,
-                                        "result":{"proba":proba,
-                                                  "isForgery":isForgery}
-                                        }))
-        
+        if len(path) != 0:
+            sess = Main()
+            # heatmap_url,proba,isForgery = sess.run(path)
+            heatmap_url,proba,isForgery = sess.run(path)
+            
+            return HttpResponse(json.dumps({"status": "Success",
+                                            "heatmap":heatmap_url,
+                                            "result":{"proba":proba,
+                                                    "isForgery":isForgery}
+                                            }))
+        else :
+            return HttpResponse(json.dumps({"status": "Failed"}))

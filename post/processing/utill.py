@@ -1,5 +1,5 @@
 import os
-os.environ['KMP_DUPLICATE_LIB_OK']='True'
+os.environ['KMP_DUPLICATE_LIB_OK']='True' # matplotlib on thread
 from . import config as cfg
 import PIL.Image as Image
 import torch
