@@ -10,7 +10,6 @@ urlpatterns = [
     path('<int:pk>/', views.DetailPost.as_view()),
     path('upload/',views.model_form_upload,name='upload'),
     path('upload/image/',views.user_image_upload,name='upload_image'),
-    path('upload/image/processing/',views.user_image_processing,name='image_processing'),
-    path('hellotest/',views.main,name='test')
+    path('upload/image/processing/',views.user_image_processing,name='image_processing')
 ]# + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
