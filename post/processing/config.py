@@ -25,7 +25,12 @@ BACKEND_DIR = settings.BASE_DIR
 
 # Network #
 IMAGE_SHAPE = (512,512,3)
-MODE_NAME = "defactor-[val_dice]-0.7420-[train_loss]-0.0753.pkl"
+MODE_SAVE_DCT = "post/processing/pre_trained/result/logs/defactor/DCT_RRUnet"
+MODE_SAVE_RRU = "post/processing/pre_trained/result/logs/defactor/Ringed_Res_Unet"
+MODE_SAVE_U2 = "post/processing/pre_trained/result/logs/defactor/U2" # <- 미정 
+MODE_NAME_DCT = "DCT-[val_dice]-0.9011-[train_loss]-0.0902-ep6.pkl"
+MODE_NAME_RRU = "defactor-[val_dice]-0.7420-[train_loss]-0.0753.pkl"
+MODE_NAME_U2 = ""
 
 # "http://127.0.0.1:8000/media/images/a2_APHuk9o.jpg"
 def process_raw_path(raw_path,out = False):

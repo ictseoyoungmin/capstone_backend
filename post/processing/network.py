@@ -5,6 +5,7 @@
 """
 import os
 from . import config as cfg
+from .pre_trained.model.unet_model import Ringed_Res_Unet,DCT_RRUnet # pre-trained folder 바꾸기(network.py에서만 폴더 접근)
 import numpy as np
 import jpegio
 import torch
@@ -12,17 +13,27 @@ from PIL import Image
 import cv2 as cv
 from torchvision import transforms
 import matplotlib.pyplot as plt
-from .pre_trained.model.unet_model import Ringed_Res_Unet # pre-trained folder 바꾸기(network.py에서만 폴더 접근)
 import random
-
-def get_model(train=False,gpu = False):
+ 
+def get_model(train=False,gpu = False,model_name='DCT_RRUnet'):
     # model load(model)
     print('get_model')
-    print(os.getcwd())
-    model = Ringed_Res_Unet()
-    model.load_state_dict(torch.load(
-        f'{cfg.BACKEND_DIR}/post/processing/pre_trained/result/logs/defactor/Ringed_Res_Unet/{cfg.MODE_NAME}',
-            map_location=torch.device('cpu')))
+  
+    if 'DCT_RRUnet' == model_name:
+        model = DCT_RRUnet()
+        model.load_state_dict(torch.load(
+            f'{cfg.BACKEND_DIR}/{cfg.MODE_SAVE_DCT}/{cfg.MODE_NAME_DCT}',
+        map_location=torch.device('cpu')))
+    elif 'RRUnet' == model_name:
+        model = DCT_RRUnet()
+        model.load_state_dict(torch.load(
+            f'{cfg.BACKEND_DIR}/{cfg.MODE_SAVE_RRU}/{cfg.MODE_NAME_RRU}',
+        map_location=torch.device('cpu')))
+    elif 'U2'== model_name:
+        model = None # unet2 plus
+        model.load_state_dict(torch.load(
+            f'{cfg.BACKEND_DIR}/{cfg.MODE_SAVE_U2}/{cfg.MODE_NAME_U2}',
+        map_location=torch.device('cpu')))
     
     if train:
         model.train()
@@ -87,7 +98,7 @@ def pred(model,filename:str):
 def pred_for_dct_rrunet(model,filename):
     print('pred')
     f = jpg_or_not(filename)
-    jpg_artifact,qtable = create_tensor(f,None)
+    jpg_artifact,_,qtable = create_tensor(f,None)
     
     jpg_artifact = jpg_artifact.unsqueeze(0)
     qtable = qtable.unsqueeze(0)
@@ -101,8 +112,8 @@ def pred_for_dct_rrunet(model,filename):
         output = model(jpg_artifact,qtable)
     output = torch.sigmoid(output)
     output = output.squeeze(0)
-    output_predictions = output.permute(1,2,0).detach().numpy()
-    pre_image = jpg_artifact[:3,:,:].permute(1,2,0).numpy()
+    output_predictions = output.permute(1,2,0).detach().cpu().numpy()
+    pre_image = jpg_artifact.cpu().squeeze(0)[:3,:,:].permute(1,2,0).numpy()
     
     print(output_predictions.shape)
     return output_predictions,pre_image
@@ -112,20 +123,16 @@ def preprocess_input(f):
     return jpg_artifact,qtable
 
 # for DCT_RRUnet
-def get_jpeg_info( im_path:str):
+def get_jpeg_info(im_path:str):
         """
         :param im_path: JPEG image path
         :return: DCT_coef (Y,Cb,Cr), qtables (Y,Cb,Cr)
         """
         num_channels =  1#DCT_channels
-        if im_path[-3:] == "tif":
-            print('tiff file')
-            outfile = "./test.jpg"
-            im = Image.open(im_path)
-            out = im.convert("RGB")
-            out.save(outfile, "JPEG", quality=90)
-
-        jpeg = jpegio.read(str(outfile))
+        
+        print(im_path)
+        
+        jpeg = jpegio.read(im_path)
 
         # determine which axes to up-sample
         ci = jpeg.comp_info

@@ -4,7 +4,7 @@
 /media
 .db.sqlite3
 # testing
-
 # production
 
 # misc
+/__pycach__
