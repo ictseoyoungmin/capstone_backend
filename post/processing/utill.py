@@ -20,7 +20,7 @@ def draw_heatmap(pred,img,img_name):
 	store_path = os.path.join(cfg.OUT_DIR,f'{img_name}_result.jpg') 
 	heatmap.convert('RGB').save(store_path)	
 	heatmap_path,_ = cfg.process_raw_path(store_path,out=True) 
- 
+  
 	return heatmap_path
 
 # 위조 영역 pixel 값 평균
