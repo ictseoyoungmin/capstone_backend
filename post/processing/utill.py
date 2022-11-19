@@ -7,23 +7,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def draw_heatmap(pred,img,img_name):
-	f = plt.figure(figsize=(12,10),dpi=96)
-	plt.imshow(img)
-	pred[0,0,0] = 0.99 # colorbar low maximum 베제
-	plt.imshow(pred ,alpha=0.6,cmap='jet')
-	plt.colorbar()
-	plt.axis('off')
-	plt.close()
-	f.canvas.draw()
-	ax = f.canvas.renderer._renderer
-	heatmap = Image.fromarray(np.array(ax)[100:-100,100:-100,:3])
-	store_path = os.path.join(cfg.OUT_DIR,f'{img_name}_result.jpg') 
-	heatmap.convert('RGB').save(store_path)	
-	heatmap_path,_ = cfg.process_raw_path(store_path,out=True) 
-  
-	return heatmap_path
+    plt.switch_backend('AGG')
+    f = plt.figure(figsize=(12,10),dpi=96)
+    plt.imshow(img)
+    pred[0,0,0] = 0.99 # colorbar low maximum 베제
+    plt.imshow(pred ,alpha=0.6,cmap='jet')
+    plt.colorbar()
+    plt.axis('off')
+    plt.close()
+    f.canvas.draw()
+    ax = f.canvas.renderer._renderer
+    heatmap = Image.fromarray(np.array(ax)[100:-100,100:-100,:3])
+    store_path = os.path.join(cfg.OUT_DIR,f'{img_name}_result.jpg') 
+    heatmap.convert('RGB').save(store_path)	
+    heatmap_path,_ = cfg.process_raw_path(store_path,out=True) 
 
-# 위조 영역 pixel 값 평균
+    return heatmap_path
+
+    # 위조 영역 pixel 값 평균
 def mean_proba(pred):
     H,W,C = np.where((pred>=0.5))
     if np.size(H):
