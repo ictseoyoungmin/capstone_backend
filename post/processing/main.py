@@ -22,9 +22,9 @@ class Main():
 
         # 1. Network Procees 
         # 1-1. load model                             
-        model = net.get_model()             
-        # 1-2. pred : p.shape (512,512,1)                                
-        pred,resized_img = net.pred_for_dct_rrunet(model,user_path)  
+        model = net.get_model(model_name='RRUnet')             
+        # 1-2. pred : p.shape (512,512,1)
+        pred,resized_img = net.pred(model,user_path)  
         
         # 2. Get Result [heatmap_image, proba, isForgery] 
         heatmap_path, proba, isForgery = u.get_result(pred,resized_img,img_name)

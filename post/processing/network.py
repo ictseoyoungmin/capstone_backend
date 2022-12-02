@@ -25,7 +25,7 @@ def get_model(train=False,gpu = False,model_name='DCT_RRUnet'):
             f'{cfg.BACKEND_DIR}/{cfg.MODE_SAVE_DCT}/{cfg.MODE_NAME_DCT}',
         map_location=torch.device('cpu')))
     elif 'RRUnet' == model_name:
-        model = DCT_RRUnet()
+        model = Ringed_Res_Unet()
         model.load_state_dict(torch.load(
             f'{cfg.BACKEND_DIR}/{cfg.MODE_SAVE_RRU}/{cfg.MODE_NAME_RRU}',
         map_location=torch.device('cpu')))
