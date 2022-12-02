@@ -20,7 +20,7 @@ class Main():
 
         print("llllllllllllll",user_path)
 
-        # 1. Network Procees 
+        # 1. Network Process 
         # 1-1. load model                             
         model = net.get_model(model_name='RRUnet')             
         # 1-2. pred : p.shape (512,512,1)
